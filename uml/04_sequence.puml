@@ -1,0 +1,32 @@
+@startuml
+actor "Пользователь" as User
+participant SimulationFrame as Frame
+participant SimulationController as Controller
+participant Environment as Env
+participant "Plant / Herbivore / Predator" as Agent
+participant WorldPanel as World
+participant PopulationChartPanel as Chart
+User -> Frame : Нажать «Новая симуляция»
+Frame -> Controller : newSimulation(config)
+Controller -> Env : create(config)
+Controller -> Frame : onSimulationReset(env, point0)
+Frame -> World : setEnvironment(env)
+Frame -> Chart : reset(point0)
+User -> Frame : Нажать «Старт»
+Frame -> Controller : toggleRunning()
+loop Каждый тик Swing Timer
+  Controller -> Env : step()
+  loop Растения, затем перемешанные H/X
+    Env -> Agent : act(env)
+    Agent -> Env : getAgent / moveAgent / addAgent
+  end
+  Env --> Controller : шаг завершён
+  Controller -> Frame : onSimulationUpdated(env, point)
+  Frame -> World : repaint()
+  Frame -> Chart : addPoint(point)
+  alt Исчез хотя бы один вид
+    Controller -> Frame : onSimulationFinished(reason, point)
+    Frame -> User : Диалог с итогами
+  end
+end
+@enduml

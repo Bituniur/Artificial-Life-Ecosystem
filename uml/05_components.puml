@@ -1,0 +1,32 @@
+@startuml
+skinparam componentStyle rectangle
+actor "Пользователь" as User
+package "Интерфейс Swing" {
+  [SimulationFrame] as Frame
+  [WorldPanel] as World
+  [PopulationChartPanel] as Chart
+}
+package "Управление" {
+  [SimulationController] as Controller
+  [SimulationConfig] as Config
+  [SimulationFactory] as Factory
+  [PopulationPoint] as Stats
+}
+package "Модель экосистемы" {
+  [Environment] as Env
+  [Agent + Plant/Herbivore/Predator] as Agents
+}
+User --> Frame
+Frame --> Controller : управление запуском
+Controller --> Config : читает параметры
+Controller --> Factory : создаёт мир
+Factory --> Env
+Controller --> Env : step()
+Env --> Agents : act()
+Controller --> Stats : формирует статистику
+Controller --> Frame : события обновления
+Frame --> World : поле
+Frame --> Chart : график
+World --> Env : читает клетки
+Chart --> Stats : отображает историю
+@enduml

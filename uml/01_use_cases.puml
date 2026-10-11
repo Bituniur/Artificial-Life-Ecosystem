@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor "Пользователь" as User
+rectangle "Искусственная жизнь" {
+    usecase "Задать размер поля" as UC1
+    usecase "Задать число агентов" as UC2
+    usecase "Задать начальную энергию" as UC3
+    usecase "Задать пороги размножения" as UC4
+    usecase "Создать новый запуск" as UC5
+    usecase "Запустить/приостановить" as UC6
+    usecase "Сделать один шаг" as UC7
+    usecase "Наблюдать поле" as UC8
+    usecase "Анализировать график P/H/X" as UC9
+}
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+User --> UC9
+@enduml
